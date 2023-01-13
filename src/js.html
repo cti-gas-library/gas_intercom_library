@@ -22,18 +22,25 @@
     }, [data, loading])
 
     return (
-      <div className='h-screen max-h-full bg-orange-50 flex flex-col justify-center'>
+      <div className='h-screen max-h-full bg-[#545454] flex flex-col justify-center'>
         <div className='container mx-auto max-w-xl flex flex-col justify-center items-center p-4 space-y-2'>
           <div>
             <button
               onClick={handlePush}
               className={[
-                'px-4 py-2 text-xl border-4 rounded font-bold select-none',
-                loading ? 'border-gray-300 bg-gray-200' : 'border-white bg-orange-100 hover:bg-orange-50',
+                'p-4select-none'
               ].join(' ')}
               disabled={loading}
             >
-              いいね 👍
+              <img
+                src="https://github.com/cti1650/gas_intercom_library/blob/master/asset/image/bell.png?raw=true"
+                alt="intercom"
+                width="100px"
+                height="auto"
+                className={[
+                  'select-none',
+                  loading ? 'opacity-10' : 'hover:opacity-100 hover:opacity-80',
+                ].join(' ')} />
             </button>
           </div>
         </div>

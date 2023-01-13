@@ -4,8 +4,6 @@
 
 iframeに埋め込めるインターホン機能を実装できるGASライブラリ
 
-https://user-images.githubusercontent.com/15701307/212114766-f9190290-4a1b-431a-b64e-b61196214e2e.mov
-
 
 ## スクリプトID
 
@@ -15,18 +13,12 @@ https://user-images.githubusercontent.com/15701307/212114766-f9190290-4a1b-431a-
 
 ## 導入手順
 
-### スプレッドシート作成
-
-- スプレッドシートに sheetName で指定したシートを作成
-- 先頭行に各 ColumnName 入力  
-  <img width="386" alt="image" src="https://user-images.githubusercontent.com/15701307/212110772-6fe2769f-5960-4542-9a1d-5fdc96576dfa.png">
-
 ### スクリプト作成
 
 - 拡張機能から AppScript を開く  
   <img width="350" alt="image" src="https://user-images.githubusercontent.com/15701307/212111055-cc0a39fd-9296-4ce2-9da7-36dd367d30f9.png">
 
-- ライブラリを追加から以下のスクリプト ID を検索しインポート  
+- ライブラリを追加から以下手順でスクリプト ID を検索しインポート  
   <img width="303" alt="image" src="https://user-images.githubusercontent.com/15701307/212111413-591d3261-a149-4f0e-9a60-42757f01900c.png">  
   <img width="533" alt="image" src="https://user-images.githubusercontent.com/15701307/212111583-c2969e24-f8a0-4d18-b74d-8453735bad3d.png">  
   <img width="526" alt="image" src="https://user-images.githubusercontent.com/15701307/212111693-e1c7f058-8c31-43fb-a1cc-22209212802f.png">  
@@ -42,9 +34,28 @@ https://user-images.githubusercontent.com/15701307/212114766-f9190290-4a1b-431a-
   ```javascript:GASコード
   const intercom = () => {
     return IntercomLibrary.create({
+      slackToken: "{slackToken}",
+      tagSettings: {
+        slack: {
+          slackChannel: "{slackChannel}",
+          message: "<!here>インターホンが押されました！"
+        },
+        slack2: {
+          slackChannel: "{slackChannel}",
+          message: "<!here>インターホンが押されました！"
+        },
+        teams: {
+          teamsWebhookURL: "{teamsWebhookURL}",
+          message: "インターホンが押されました！"
+        },
+        teams2: {
+          teamsWebhookURL: "{teamsWebhookURL}",
+          message: "インターホンが押されました！"
+        }
+      },
       onPush: (data) => {
         console.log(data);
-        GmailApp.sendEmail("test@gmail.com", "【通知】訪問者通知","インターホンが押されました！\n\n対応をお願いします！")
+        GmailApp.sendEmail("{sendMailAddress}", "【通知】訪問者通知","インターホンが押されました！\n\n対応をお願いします！")
       }
     });
   }
