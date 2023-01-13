@@ -1,3 +1,5 @@
+// Send Data Type
+// https://learn.microsoft.com/ja-jp/microsoftteams/platform/task-modules-and-cards/cards/cards-reference#properties-of-the-office-365-connector-card
 function TeamsApp(webhookUrl) {
   const reg = /https:\/\/(.+)\.webhook\.office\.com\/(.*?)/
   const defaultOptions = {

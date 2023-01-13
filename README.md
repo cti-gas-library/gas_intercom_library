@@ -31,31 +31,30 @@ iframeに埋め込めるインターホン機能を実装できるGASライブ�
   ```
 - GASスクリプトに以下のコードをコピー
 
-  ```javascript:GASコード
+  ```javascript
   const intercom = () => {
+    const env = ScriptProperties.getProperties();
     return IntercomLibrary.create({
-      slackToken: "{slackToken}",
       tagSettings: {
         slack: {
-          slackChannel: "{slackChannel}",
+          slackToken: env?.SLACK_TOKEN,
+          slackChannel: "test",
           message: "<!here>インターホンが押されました！"
         },
-        slack2: {
-          slackChannel: "{slackChannel}",
-          message: "<!here>インターホンが押されました！"
-        },
-        teams: {
-          teamsWebhookURL: "{teamsWebhookURL}",
+        line: {
+          lineNotifyToken: env?.LINE_NOTIFY_TOKEN,
           message: "インターホンが押されました！"
         },
-        teams2: {
-          teamsWebhookURL: "{teamsWebhookURL}",
+        teams: {
+          teamsWebhookURL: env?.TEAMS_WEBHOOK_URL,
           message: "インターホンが押されました！"
         }
       },
       onPush: (data) => {
         console.log(data);
-        GmailApp.sendEmail("{sendMailAddress}", "【通知】訪問者通知","インターホンが押されました！\n\n対応をお願いします！")
+        if(data?.tag === "mail") {
+          GmailApp.sendEmail(env?.SEND_MAIL_ADDRESS, "【通知】訪問者通知","インターホンが押されました！\n\n対応をお願いします！")
+        }
       }
     });
   }
@@ -68,6 +67,18 @@ iframeに埋め込めるインターホン機能を実装できるGASライブ�
     return intercom().hookHandler(e);
   };
   ```
+
+- GASスクリプトにスクリプトプロパティを追加（任意）
+
+  スクリプトプロパティを使用することで編集権限がないユーザーが設定値を参照できないようにする。  
+  [【GAS】プロパティサービスについてまとめる](https://qiita.com/chii-08/items/c8bb24c1141eb6ede83e)
+
+  環境変数名|発行手順
+  :-|:-
+  SLACK_TOKEN| [Slackアプリでチャンネルにメッセージを送信する方法](https://christina04.hatenablog.com/entry/sending-messages-with-slack-app)
+  LINE_NOTIFY_TOKEN|[LINE Notify アクセストークン発行方法](https://firestorage.jp/business/line-notify/)
+  TEAMS_WEBHOOK_URL|[Microsoft TeamsのWebhookによる通知](https://qiita.com/SDN/items/3754ae1e8960df01cc11)
+  SEND_MAIL_ADDRESS|任意のメールアドレスを入力
 
 ### スクリプトの公開設定
 

@@ -1,8 +1,11 @@
 class IntercomLibrary {
   constructor(option = {}) {
     this.tagSettings = option?.tagSettings ?? {};
+    this.onInit = option?.onInit ?? ((prop) => prop);
     this.onPush = option?.onPush ?? (() => {});
     this.slackToken = option?.slackToken ?? null;
+    this.teamsWebhookURL = option?.teamsWebhookURL ?? null;
+    this.lineNotifyToken = option?.lineNotifyToken ?? null;
   }
 
   pushIntercom(data) {
@@ -10,24 +13,41 @@ class IntercomLibrary {
       ...(data.tag ? this.tagSettings[data.tag] : {} ),
       ...data
     };
-    if(this.slackToken){
-      const { postMessage: SlackPostMessage } = SlackApp(this.slackToken);
+    const replaceDataSet = dataSet?.replaceData ?? {};
+    let text = dataSet?.message ?? null;
+    Object.keys(replaceDataSet).forEach((key)=>{
+      text = text.replaceAll(`{{${key}}}`, replaceDataSet[key]);
+    });
+    if(!text) {
+      this.onPush?.(dataSet);
+      return;
+    }
+    if(this.slackToken || dataSet?.slackToken){
+      const { postMessage: SlackPostMessage } = SlackApp(dataSet?.slackToken ?? this.slackToken);
       const channel = dataSet?.slackChannel ?? null;
-      const text = dataSet?.message ?? null;
-      if(channel && text){
+      const slackOption = dataSet?.slackOption ?? {};
+      if(channel){
         SlackPostMessage(channel, {
+          ...slackOption,
           text,
         });
       }
     }
-    if(dataSet?.teamsWebhookURL){
-      const { postMessage : TeamsPostMessage } = TeamsApp(dataSet?.teamsWebhookURL);
-      const text = dataSet?.message ?? null;
-      if(text){
-        TeamsPostMessage({
-          text,
-        });
-      }
+    if(this.lineNotifyToken || dataSet?.lineNotifyToken){
+      const { postMessage: LinePostMessage } = LineApp(dataSet?.lineNotifyToken ?? this.lineNotifyToken);
+      const lineNotifyOption = dataSet?.lineNotifyOption ?? {};
+      LinePostMessage({
+        ...lineNotifyOption,
+        message: text,
+      });
+    }
+    if(this.teamsWebhookURL || dataSet?.teamsWebhookURL){
+      const { postMessage : TeamsPostMessage } = TeamsApp(dataSet?.teamsWebhookURL ?? this.teamsWebhookURL);
+      const teamsWebhookOption = dataSet?.teamsWebhookOption ?? {};
+      TeamsPostMessage({
+        ...teamsWebhookOption,
+        text,
+      });
     }
     this.onPush?.(dataSet);
   }
@@ -37,6 +57,9 @@ class IntercomLibrary {
     const tag = e?.parameter?.tag ?? null
     template.prop = {
       tag,
+    }
+    if(typeof this?.onInit === "function"){
+      template.prop = this?.onInit(template.prop);
     }
     return template
       .evaluate()

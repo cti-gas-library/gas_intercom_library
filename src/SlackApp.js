@@ -1,3 +1,5 @@
+// Send Data Type
+// https://api.slack.com/methods/chat.postMessage
 function SlackApp(token) {
   const url = 'https://slack.com/api/'
   const defaultOptions = {
