@@ -4,6 +4,8 @@
 
 iframeに埋め込めるインターホン機能を実装できるGASライブラリ
 
+<img width="166" alt="image" src="https://user-images.githubusercontent.com/15701307/212430435-db95e14a-6a85-41f7-8d68-ee4dbf09e11c.png">
+
 
 ## スクリプトID
 
@@ -20,10 +22,9 @@ iframeに埋め込めるインターホン機能を実装できるGASライブ�
 
 - ライブラリを追加から以下手順でスクリプト ID を検索しインポート  
   <img width="303" alt="image" src="https://user-images.githubusercontent.com/15701307/212111413-591d3261-a149-4f0e-9a60-42757f01900c.png">  
-  <img width="533" alt="image" src="https://user-images.githubusercontent.com/15701307/212111583-c2969e24-f8a0-4d18-b74d-8453735bad3d.png">  
-  <img width="526" alt="image" src="https://user-images.githubusercontent.com/15701307/212111693-e1c7f058-8c31-43fb-a1cc-22209212802f.png">  
-  <img width="237" alt="image" src="https://user-images.githubusercontent.com/15701307/212111784-f3b09fab-8a45-488f-b5b5-b7f45a1f39db.png">  
-
+  <img width="526" alt="image" src="https://user-images.githubusercontent.com/15701307/212429702-8ede3f2c-b466-4138-b837-e9003533f00e.png">  
+  <img width="527" alt="image" src="https://user-images.githubusercontent.com/15701307/212429791-5c6c8bdf-220e-4702-a99f-92ed885b4634.png">  
+  <img width="238" alt="image" src="https://user-images.githubusercontent.com/15701307/212429350-c8b4a71f-eea0-4a5b-b6ec-47c0fbb21c43.png">  
 
 - スクリプト ID
   ```
@@ -69,6 +70,8 @@ iframeに埋め込めるインターホン機能を実装できるGASライブ�
   ```
 
 - GASスクリプトにスクリプトプロパティを追加（任意）
+
+  <img width="748" alt="スクリーンショット 2023-01-14 7 21 45" src="https://user-images.githubusercontent.com/15701307/212430268-d564e3a6-9754-46d5-8852-7534899f9043.png">  
 
   スクリプトプロパティを使用することで編集権限がないユーザーが設定値を参照できないようにする。  
   [【GAS】プロパティサービスについてまとめる](https://qiita.com/chii-08/items/c8bb24c1141eb6ede83e)
