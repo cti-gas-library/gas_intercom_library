@@ -15,30 +15,18 @@
   /* ここにJavaScriptを書いていきます */
   const App = () => {
     const [loading, setLoading] = React.useState(false)
-    const [count, setCount] = React.useState(data?.count ?? 0)
-    const addLike = React.useCallback(async () => {
+    const handlePush = React.useCallback(async () => {
       setLoading(true)
-      const next = await gasScript('addLikeCount', data?.tag)
-      setCount(next)
+      await gasScript('pushIntercom', { tag: data?.tag })
       setLoading(false)
-    }, [data, count, loading])
-
-    React.useEffect(() => {
-      const tick = setInterval(async () => {
-        const next = await gasScript('getLikeCount', data?.tag)
-        setCount(next)
-      }, 1000 * 60 * 30)
-      return () => {
-        clearInterval(tick)
-      }
-    }, [])
+    }, [data, loading])
 
     return (
       <div className='h-screen max-h-full bg-orange-50 flex flex-col justify-center'>
         <div className='container mx-auto max-w-xl flex flex-col justify-center items-center p-4 space-y-2'>
           <div>
             <button
-              onClick={addLike}
+              onClick={handlePush}
               className={[
                 'px-4 py-2 text-xl border-4 rounded font-bold select-none',
                 loading ? 'border-gray-300 bg-gray-200' : 'border-white bg-orange-100 hover:bg-orange-50',
@@ -48,7 +36,6 @@
               いいね 👍
             </button>
           </div>
-          <div className='p-2 text-4xl font-bold select-none'>{count}</div>
         </div>
       </div>
     )

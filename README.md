@@ -1,8 +1,8 @@
-# GAS LikeLog Library
+# GAS Intercom Library
 
 ## 目的
 
-iframe に埋め込めるいいね機能をスプレッドシートをデータソースにして実装できるGASライブラリ
+iframeに埋め込めるインターホン機能を実装できるGASライブラリ
 
 https://user-images.githubusercontent.com/15701307/212114766-f9190290-4a1b-431a-b64e-b61196214e2e.mov
 
@@ -10,7 +10,7 @@ https://user-images.githubusercontent.com/15701307/212114766-f9190290-4a1b-431a-
 ## スクリプトID
 
   ```
-  10vTUuQfTCuXRvZVzCxjCzFFqWIMCdDx6sDsuODgZ4vjVV5Q1xCqTagz8
+  1j4RlRogkCMBCgLq9-EoNBKQQDiq52NFC1NJh8pAptkLD1p8fmHImOmLX
   ```
 
 ## 導入手順
@@ -35,29 +35,26 @@ https://user-images.githubusercontent.com/15701307/212114766-f9190290-4a1b-431a-
 
 - スクリプト ID
   ```
-  10vTUuQfTCuXRvZVzCxjCzFFqWIMCdDx6sDsuODgZ4vjVV5Q1xCqTagz8
+  1j4RlRogkCMBCgLq9-EoNBKQQDiq52NFC1NJh8pAptkLD1p8fmHImOmLX
   ```
 - GASスクリプトに以下のコードをコピー
 
   ```javascript:GASコード
-  const likelog = () => {
-    return LikeLogLibrary.create({
-      sheetName: "タグ別",
-      tagColumnName: "tag",
-      likeColumnName: "like"
+  const intercom = () => {
+    return IntercomLibrary.create({
+      onPush: (data) => {
+        console.log(data);
+        GmailApp.sendEmail("test@gmail.com", "【通知】訪問者通知","インターホンが押されました！\n\n対応をお願いします！")
+      }
     });
   }
 
-  const getLikeCount = (tag) => {
-    return likelog().getLikeCount(tag);
-  }
-
-  const addLikeCount = (tag) => {
-    return likelog().addLikeCount(tag);
+  const pushIntercom = (data) => {
+    return intercom().pushIntercom(data);
   }
 
   const doGet = (e) => {
-    return likelog().hookHandler(e);
+    return intercom().hookHandler(e);
   };
   ```
 
